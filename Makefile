@@ -32,4 +32,15 @@ cucumber.js: fixture-server
 		kill -9 `cat $(PID_FILE)` ; rm $(PID_FILE) ; \
 		exit $$STATUS
 
+ghost: fixture-server
+	@TEST_PORT=$(TEST_PORT) "$(NODE_MODULES)/.bin/cucumber.js" \
+			-f pretty \
+			GhostStory/css.feature \
+			--require GhostStory/steps \
+			--require GhostStory/support/hooks.js \
+			--require GhostStory/support/world.js ; \
+		STATUS=$$? ; \
+		kill -9 `cat "$(PID_FILE)"` ; rm "$(PID_FILE)" ; \
+		exit $$STATUS
+
 .PHONY: test fixture-server cucumber.js

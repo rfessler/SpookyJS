@@ -1,0 +1,3 @@
+[submodule "GhostStory"]
+	path = GhostStory
+	url = https://github.com/thingsinjars/GhostStory.git
