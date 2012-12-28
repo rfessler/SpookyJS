@@ -1,115 +1,35 @@
-# SpookyJS
+# SpookyJS for CSS Testing
 
 Drive [CasperJS](http://casperjs.org/) from Node.js.
+
+For full details on using SpookyJS, refer to the [SpookyJS README](https://github.com/WaterfallEngineering/SpookyJS/README.md)
+
+This README will cover using SpookyJS for CSS testing using the [GhostStory](https://github.com/thingsinjars/GhostStory/) set of CSS [Cucumber.js](https://github.com/cucumber/cucumber-js/) steps. It also makes use of [PhantomCSS](https://github.com/Huddle/PhantomCSS) for some of the steps.
 
 ## Installation
 
 ### Prerequisites
 
 * [Node.js](http://nodejs.org)
-* [PhantomJS](http://phantomjs.org/)
+* [PhantomJS](http://phantomjs.org/) *note:* version 1.6 or 1.7. Currently not working with 1.8
 * [CasperJS](http://casperjs.org/)
 
-SpookyJS is available from npm.
+### Submodules
+Once these prerequisites are installed, the easiest way to ensure all the submodules are initialised and installed is:
 
+    git clone --recursive git://github.com/thingsinjars/SpookyJS.git
+    
+This will pull in GhostStory and a slightly modified version of PhantomCSS.
+
+
+## Make target
+
+An example test suite is included in `GhostStory/css.feature` and can be run from the command-line using:
+ 
 ``` shell
-$ npm install spooky
+$ make ghost
 ```
 
-## Usage
+## CSS steps
 
-``` javascript
-var Spooky = require('../lib/spooky');
-
-var spooky = new Spooky({
-        child: {
-            script: './lib/bootstrap.js',
-            spooky_lib: './node_modules'
-        },
-        casper: {
-            logLevel: 'debug',
-            verbose: true
-        }
-    }, function (err) {
-        if (err) {
-            e = new Error('Failed to initialize SpookyJS');
-            e.details = err;
-            throw e;
-        }
-
-        spooky.on('error', function (e) {
-            console.error(e);
-        });
-
-        /*
-        // Uncomment this block to see all of the things Casper has to say.
-        // There are a lot.
-        // He has opinions.
-        spooky.on('console', function (line) {
-            console.log(line);
-        });
-        */
-
-        spooky.on('log', function (log) {
-            if (log.space === 'remote') {
-                console.log(log.message.replace(/ \- .*/, ''));
-            }
-        });
-
-        spooky.start(
-            'http://en.wikipedia.org/wiki/Spooky_the_Tuff_Little_Ghost');
-        spooky.thenEvaluate(function () {
-            console.log('Hello, from', document.title);
-        });
-        spooky.run();
-    });
-```
-
-A minimal example can be found in the repo under `examples`. Run it like this:
-
-``` shell
-$ node examples/hello.js
-```
-
-A small example [Cucumber.js](https://github.com/cucumber/cucumber-js/) test suite can be found in the repo under `examples/cucumber`. To run the suite:
-
-``` shell
-$ make cucumber.js
-```
-
-You may change the port that the fixture server runs on by setting the `TEST_PORT` make parameter.
-
-See the tests for an example of how to use SpookyJS with [Mocha](http://visionmedia.github.com/mocha). 
-
-## Development
-
-### Running the tests
-
-SpookyJS includes a suite of unit tests, driven by [Mocha](http://visionmedia.github.com/mocha). To run the tests:
-
-``` shell
-$ make test
-```
-
-The following make parameters are supported (defaults are in parentheses):
-
-* `TEST_REPORTER` the [Mocha reporter](http://visionmedia.github.com/mocha/#reporters) to use (dot)
-* `TEST_PORT` the port to run the fixture web server on (8080)
-* `TEST_TIMEOUT` threshold in ms to timeout a test (4000)
-* `TEST_SLOW` threshold in ms to say a test is slow (2000)
-* `TEST_ARGS` Additional [arguments](http://visionmedia.github.com/mocha/#usage) to pass through to Mocha
-* `TEST_DEBUG` Print debug logging to the console (false)
-* `TEST_TRANSPORT` the Spooky transport to use when running the tests (stdio)
-
-## License
-
-SpookyJS is made available under the [MIT License](http://opensource.org/licenses/mit-license.php).
-
-## Acknowledgements and Attribution
-
-The image `tests/fixtures/fail-road.jpeg` is the work [Fail
-Road](http://www.flickr.com/photos/fireflythegreat/2845637227/) and is
-copyright (c) 2007
-[fireflythegreat](http://www.flickr.com/photos/fireflythegreat/) and made
-available under an [Attribution 2.0
-Generic](http://creativecommons.org/licenses/by/2.0/deed.en) license.
+The GhostStory README contains details of the steps available for Cucumber feature files.
